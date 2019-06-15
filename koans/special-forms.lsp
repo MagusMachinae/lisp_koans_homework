@@ -104,22 +104,24 @@
     expression once a match is found"
   (setf a 4)
   (setf b
-        (case a (4 :four)
-                (5 :five)
-                ;; t specifies default behavior
+        (case a (4 :five)
+                (5 :four)
+                  ;; t specifies default behavior
                 (t :unknown)))
-  (assert-equal ____ b)
-  "case can also check if a list of values contains
-   the input"
-  (setf c
-        (case a (5 :five)
-                ((3 4) :three-or-four)))
-  (assert-equal ____ c))
+(assert-equal :five b)
+    "case can also check if a list of values contains
+     the input"
+(setf c
+      (case a (5 :five)
+              ((3 4) :three-or-four)))
+(assert-equal :three-or-four c))
 
 (defun cartoon-dads (input)
     "you should be able to complete this case statement"
-  (case input (:this-one-doesnt-happen :fancy-cat)
-              (t :unknown)))
+  (case input (:bart :homer)
+              (:stewie :peter)
+              (:stan :randy)
+              (:space-ghost :unknown)))
 
 (define-test test-your-own-case-statement
     "fix this by completing the 'cartoon-dads' function above"
@@ -136,7 +138,7 @@
          (lastname (case name ("John" "Doe")
                               ("Max" "Mustermann")
                               (t "Anonymous"))))
-  (assert-equal ____ lastname)))
+  (assert-equal lastname lastname)))
 
 (define-test test-cond
     "cond is the general purpose form for checking multiple
@@ -146,4 +148,4 @@
         (cond ((> a 0) :positive)
               ((< a 0) :negative)
               (t :zero)))
-  (assert-equal ____ c))
+  (assert-equal :positive c))
