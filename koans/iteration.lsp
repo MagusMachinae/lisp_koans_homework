@@ -31,9 +31,11 @@
       (if (> one-prime biggest-in-list)
           (setf biggest-in-list one-prime))
       (incf how-many-in-list))
-    (assert-equal ___ how-many-in-list)
-    (assert-equal ___ biggest-in-list))
+    (assert-equal 4 how-many-in-list)
+    (assert-equal 999565999 biggest-in-list))
   (let ((sum 0))
+    (dolist (one-prime some-primes)
+      (incf sum one-prime))
     "write your own dolist here to calculate the sum of some-primes"
     "you may be interested in investigating the 'incf' function"
     ;(dolist ... )
@@ -44,18 +46,18 @@
     "Dolist can accept a return variable, which will be the return value
      upon completion of the iteration."
     (let ((my-list '(1 2 3 4))
-          (my-return))
+          (my-return '(2)))
       (dolist (x my-list my-return)
         (push (* x x) my-return))
-      (assert-equal ____ my-return)))
+      (assert-equal '(16 9 4 1 2) my-return)))
 
 
 (define-test test-dotimes
     "'dotimes' iterates over the integers from 0 to (limit - 1),
       binding them in order to your selected symbol."
-    (let ((out-list nil))
-      (dotimes (y 3) (push y out-list))
-      (assert-equal out-list ___)))
+    (let ((out-list '(1)))
+      (dotimes (y 3) (push y out-list) '(3))
+      (assert-equal out-list '(2 1 0 1))))
 
 
 (defvar *x* "global")
@@ -63,8 +65,8 @@
     "dotimes establishes a local lexical binding which may shadow
      a global value."
   (dotimes (*x* 4)
-    (true-or-false? ___ (equal "global" *x*)))
-  (true-or-false? ___ (equal "global" *x*)))
+    (true-or-false? nil (equal "global" *x*)))
+  (true-or-false? t (equal "global" *x*)))
 
 
 (define-test test-loop-until-return
@@ -75,14 +77,14 @@
       (loop
         (incf loop-counter)
         (if (>= loop-counter 100) (return loop-counter)))
-      (assert-equal ___ loop-counter)))
+      (assert-equal 100 loop-counter)))
 
 
 (define-test test-mapcar
     "mapcar takes a list and a function.  It returns a new list
      with the function applied to each element of the input"
   (let ((mc-result (mapcar #'evenp '(1 2 3 4 5))))
-    (assert-equal mc-result ____)))
+    (assert-equal mc-result '(nil t nil t nil))))
 
 
 ;; ----
@@ -106,11 +108,11 @@
   (assert-equal (vowels-to-xs "Astronomy") "xstrxnxmy")
   (let* ((subjects '("Astronomy" "Biology" "Chemistry" "Linguistics"))
          (mc-result (mapcar #'vowels-to-xs subjects)))
-    (assert-equal mc-result ____)))
+    (assert-equal mc-result '("xstrxnxmy" "Bxxlxgy" "Chxmxstry" "Lxngxxstxcs"))))
 
 
 ;; ----
 
 (define-test test-mapcar-with-lambda
     (let ((mc-result (mapcar (lambda (x) (mod x 10)) '(21 152 403 14))))
-      (assert-equal mc-result ____)))
+      (assert-equal mc-result '(1 2 3 4))))
